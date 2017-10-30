@@ -29,9 +29,9 @@ class App extends React.Component {
     let newData = {"id": this.state.list.length + 1, "name" : name, "Designation": job}
     oldList.push(newData)
     this.setState({list: oldList})
-    //console.log(this.state.list);
 
-    fetch("http://localhost:2030/employeelist", {
+    //path of local list from mongodb
+    fetch("http://localhost:2040/list", {
     method: 'POST',
     headers: {
         'Accept': 'application/json',
@@ -53,8 +53,8 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    //console.log(this)
-    fetch("http://localhost:2030/employeelist")
+    //path of local list from mongodb
+    fetch("http://localhost:2040/list")
     .then((response) =>
     response.json()
   )

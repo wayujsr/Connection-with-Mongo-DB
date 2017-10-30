@@ -16,13 +16,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
  
 app.get('/', function (req, res) {
-  res.send('Hello World')
+  res.send('List of Homesofa Employees')
 })
 
 
 var emplist;
-
-app.get('/employeelist', function(req,res){
+//path of local list from mongodb which used in react application
+app.get('/list', function(req,res){
 	 MongoClient.connect(url, function(err, db) {
 		console.log("Connected correctly to server");
 		findDocuments(db, function() {
@@ -34,7 +34,8 @@ app.get('/employeelist', function(req,res){
 
 var findDocuments = function(db, callback) {
   // Get the emplist collection
-  var collection = db.collection('employeelist');
+  // collection name from where mongodb works
+  var collection = db.collection('homesofaEmpList');
   // Find some emplist
 	collection.find({}).toArray(function(err, docs) {
     console.log("Found the following records");
@@ -43,8 +44,7 @@ var findDocuments = function(db, callback) {
   });
 }
 
-app.post("/employeelist", function(req,res){
-	console.log("one")
+app.post("/list", function(req,res){
 	var entry = req.body;
 	emplist.push(entry);
 	// Use connect method to connect to the Server
@@ -60,15 +60,15 @@ app.post("/employeelist", function(req,res){
 
 var insertDocuments = function(db, entry, callback) {
   // Get the emplist collection
-  var collection = db.collection('employeelist');
+  var collection = db.collection('homesofaEmpList');
   // Insert some emplist
   collection.insert(
     entry
   , function(err, result) {
-    console.log("Inserted 1 list into the employeelist collection");
+    console.log("Inserted 1 row in homesofaEmpList collection");
     console.log(entry);
 	callback(result);
   });
 }
  
-app.listen(2030);
+app.listen(2040);
